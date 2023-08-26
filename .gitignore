@@ -1,2 +1,9 @@
 .idea
+
+x64
+x86
+
+Pathtracer/x64
+Pathtracer/x86
+
 *.vcxproj.filters
