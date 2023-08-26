@@ -19,3 +19,13 @@ bool Metal::Scatter(Ray ray, HitRecord hitRecord, Vector3& attenuation, Ray& sca
     attenuation = Albedo;
     return true;
 }
+
+bool DiffuseLight::Scatter(Ray ray, HitRecord hitRecord, Vector3& attenuation, Ray& scattered) const
+{
+    return false;
+}
+
+Vector3 DiffuseLight::Emitted(float u, float v, Vector3 position) const
+{
+    return Albedo;
+}

@@ -74,17 +74,17 @@ Vector3 Pathtracer::TraceRay(Ray ray, int depth, Scene* scene)
     if (depth <= 0)
         return Vector3::Zero();
 
-    if (scene->Intersect(ray, 0.001f, 10000.0f, hitRecord))
-    {
-        Ray scattered;
-        Vector3 attenuation;
-        if (hitRecord.material->Scatter(ray, hitRecord, attenuation, scattered))
-            return attenuation * TraceRay(scattered, depth - 1, scene);
+    if (!scene->Intersect(ray, 0.00001f, 1000000.0f, hitRecord))
+        return Utility::BackgroundColor;
 
-        return Vector3(0);
-    }
+    Ray scattered;
+    Vector3 attenuation;
+    Vector3 emitted = hitRecord.material->Emitted(hitRecord.u, hitRecord.v, hitRecord.position);
 
-    Vector3 unitDirection = Vector3::Normalize(ray.Direction);
-    float a = 0.5f * (unitDirection.y + 1.0f);
-    return (1.0f - a) * Vector3(1.0f) + a * Vector3(0.5f, 0.7f, 1.0f);
+    if (!hitRecord.material->Scatter(ray, hitRecord, attenuation, scattered))
+        return emitted;
+
+    Vector3 color = attenuation * TraceRay(scattered, depth - 1, scene);
+
+    return emitted + color;
 }

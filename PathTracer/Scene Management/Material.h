@@ -12,6 +12,7 @@ public:
     Material() : Albedo(Vector3(0)) {}
 
     virtual bool Scatter(Ray ray, HitRecord hitRecord, Vector3& attenuation, Ray& scattered) const = 0;
+    virtual Vector3 Emitted(float u, float v, Vector3 position) const { return Vector3(0); }
 };
 
 class Lambertian : public Material
@@ -31,4 +32,13 @@ public:
 
 private:
     float m_fuzz;
+};
+
+class DiffuseLight : public Material
+{
+public:
+    DiffuseLight(Vector3 albedo) : Material(albedo) {}
+
+    bool Scatter(Ray ray, HitRecord hitRecord, Vector3& attenuation, Ray& scattered) const override;
+    Vector3 Emitted(float u, float v, Vector3 position) const override;
 };

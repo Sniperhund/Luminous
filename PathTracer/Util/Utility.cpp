@@ -5,6 +5,7 @@
 
 int Utility::SamplesPerPixel = 1024;
 int Utility::MaxDepth = 4;
+Vector3 Utility::BackgroundColor = Vector3(0.5f, 0.5f, 0.5f);
 
 float Utility::Epsilon = std::numeric_limits<float>::epsilon();
 

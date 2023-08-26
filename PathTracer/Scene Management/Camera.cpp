@@ -13,7 +13,7 @@ Vector3 Camera::sm_lookAt = Vector3(0.0f, 0.0f, 0.0f);
 float Camera::sm_defocusAngle = 0.0f;
 float Camera::sm_focusDist = 10.0f;
 
-Vector3 Camera::sm_up = Vector3(0.0f, 1.0f, 0.0f);
+Vector3 Camera::sm_up = Vector3(0.0f, 0.0f, 1.0f);
 
 Vector3 Camera::u = Vector3(0.0f, 0.0f, 0.0f);
 Vector3 Camera::v = Vector3(0.0f, 0.0f, 0.0f);

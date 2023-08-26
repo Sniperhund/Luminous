@@ -1,11 +1,14 @@
 ﻿#pragma once
 #include <limits>
 
+#include "../Math/Vector3.h"
+
 class Utility
 {
 public:
     static int SamplesPerPixel;
     static int MaxDepth;
+    static Vector3 BackgroundColor;
     static float Epsilon;
     
     static float RandomFloat();

@@ -8,7 +8,7 @@ struct HitRecord
 {
     Vector3 position = Vector3(0, 0, 0);
     Vector3 normal = Vector3(0, 0, 0);
-    float time = 0.0f;
+    float time = 0.0f, u = 0.0f, v = 0.0f;
     bool frontFace = false;
     Material* material = nullptr;
 
