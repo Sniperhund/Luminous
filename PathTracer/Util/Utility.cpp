@@ -1,5 +1,6 @@
 ﻿#include "Utility.h"
 
+#include <corecrt_math_defines.h>
 #include <cstdlib>
 
 int Utility::SamplesPerPixel = 1024;
@@ -22,4 +23,9 @@ float Utility::Clamp(float value, float min, float max)
     if (value < min) return min;
     if (value > max) return max;
     return value;
+}
+
+float Utility::DegreesToRadians(float degrees)
+{
+    return degrees * (float)M_PI / 180.0f;
 }

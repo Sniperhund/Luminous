@@ -12,4 +12,6 @@ public:
     static float RandomFloat(float min, float max);
 
     static float Clamp(float value, float tMin, float tMax);
+
+    static float DegreesToRadians(float degrees);
 };

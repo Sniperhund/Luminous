@@ -139,6 +139,15 @@ Vector3 Vector3::RandomInUnitSphere()
     }
 }
 
+Vector3 Vector3::RandomInUnitDisk()
+{
+    while (true)
+    {
+        Vector3 p = Vector3(Utility::RandomFloat(-1, 1), Utility::RandomFloat(-1, 1), 0);
+        if (LengthSquared(p) < 1) return p;
+    }
+}
+
 Vector3 Vector3::RandomInUnitVector()
 {
     return Normalize(RandomInUnitSphere());

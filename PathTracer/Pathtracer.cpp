@@ -18,9 +18,15 @@ void Pathtracer::RaytraceScene(Scene* scene)
 {
     BS::thread_pool pool(std::thread::hardware_concurrency() - 2);
     
+    int totalPixels = m_width * m_height;
+    std::atomic<int> processedPixels(0);
+    
+    int updateInterval = totalPixels / 100;  // Update every 1% progress
+    
     for (int y = 0; y < m_height; y++)
     {
-        pool.submit([this, scene, y]
+        // ReSharper disable once CppNoDiscardExpression
+        pool.submit([this, scene, y, &processedPixels, updateInterval, totalPixels]
         {
             for (int x = 0; x < m_width; x++)
             {
@@ -39,11 +45,24 @@ void Pathtracer::RaytraceScene(Scene* scene)
                 color.z = sqrtf(scale * color.z);
 
                 m_image.SetPixel(x, y, color);
+
+                // Update the processed pixel count
+                int pixelsProcessed = ++processedPixels;
+
+                // Update the progress bar at specified intervals
+                if (pixelsProcessed % updateInterval == 0 || pixelsProcessed == totalPixels)
+                {
+                    float progress = static_cast<float>(pixelsProcessed) / totalPixels * 100;
+                    std::cout << "\rProgress: " << std::fixed << std::setprecision(2) << progress << "%";
+                    std::cout.flush();
+                }
             }
         });
     }
 
     pool.wait_for_tasks();
+
+    std::cout << "\rProgress: 100.00%" << std::endl;
 
     m_image.Save("output.png");
 }

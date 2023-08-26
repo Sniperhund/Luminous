@@ -35,6 +35,7 @@ public:
     static Vector3 Random(float min, float max);
     static Vector3 RandomUnitVector();
     static Vector3 RandomInUnitSphere();
+    static Vector3 RandomInUnitDisk();
     static Vector3 RandomInUnitVector();
     static Vector3 RandomInHemisphere(Vector3 normal);
 
