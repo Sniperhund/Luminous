@@ -109,6 +109,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,6 +146,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,11 +158,29 @@
   <ItemGroup>
     <ClCompile Include="Math\Ray.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
-    <ClCompile Include="PathTracer.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Pathtracer.cpp" />
+    <ClCompile Include="Scene Management\Camera.cpp" />
+    <ClCompile Include="Scene Management\Material.cpp" />
+    <ClCompile Include="Scene Management\Objects\Mesh.cpp" />
+    <ClCompile Include="Scene Management\Objects\RawMesh.cpp" />
+    <ClCompile Include="Scene Management\Objects\Object.cpp" />
+    <ClCompile Include="Scene Management\Scene.cpp" />
+    <ClCompile Include="Util\Image.cpp" />
+    <ClCompile Include="Util\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Ray.h" />
     <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="Pathtracer.h" />
+    <ClInclude Include="Scene Management\Camera.h" />
+    <ClInclude Include="Scene Management\Material.h" />
+    <ClInclude Include="Scene Management\Objects\Mesh.h" />
+    <ClInclude Include="Scene Management\Objects\RawMesh.h" />
+    <ClInclude Include="Scene Management\Objects\Object.h" />
+    <ClInclude Include="Scene Management\Scene.h" />
+    <ClInclude Include="Util\Image.h" />
+    <ClInclude Include="Util\Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
