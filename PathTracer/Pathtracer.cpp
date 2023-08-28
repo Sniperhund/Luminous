@@ -16,7 +16,7 @@ Pathtracer::Pathtracer(int width, int height) : m_image(Image(width, height))
 
 void Pathtracer::RaytraceScene(Scene* scene)
 {
-    BS::thread_pool pool(std::thread::hardware_concurrency() - 2);
+    BS::thread_pool pool(std::thread::hardware_concurrency() - 1);
     
     int totalPixels = m_width * m_height;
     std::atomic<int> processedPixels(0);
@@ -30,7 +30,7 @@ void Pathtracer::RaytraceScene(Scene* scene)
         {
             for (int x = 0; x < m_width; x++)
             {
-                Vector3 color = Vector3(0, 0, 0);
+                glm::vec3 color = glm::vec3(0, 0, 0);
 
                 for (int samples = 0; samples < Utility::SamplesPerPixel; samples++)
                 {
@@ -67,24 +67,24 @@ void Pathtracer::RaytraceScene(Scene* scene)
     m_image.Save("output.png");
 }
 
-Vector3 Pathtracer::TraceRay(Ray ray, int depth, Scene* scene)
+glm::vec3 Pathtracer::TraceRay(Ray ray, int depth, Scene* scene)
 {
+    if (depth == 0)
+        return glm::vec3(0.0f);
+
     HitRecord hitRecord;
-
-    if (depth <= 0)
-        return Vector3::Zero();
-
+    
     if (!scene->Intersect(ray, 0.00001f, 1000000.0f, hitRecord))
         return Utility::BackgroundColor;
 
     Ray scattered;
-    Vector3 attenuation;
-    Vector3 emitted = hitRecord.material->Emitted(hitRecord.u, hitRecord.v, hitRecord.position);
+    glm::vec3 attenuation;
+    glm::vec3 emitted = hitRecord.material->Emitted(hitRecord.u, hitRecord.v, hitRecord.position);
 
     if (!hitRecord.material->Scatter(ray, hitRecord, attenuation, scattered))
         return emitted;
 
-    Vector3 color = attenuation * TraceRay(scattered, depth - 1, scene);
+    glm::vec3 color = attenuation * TraceRay(scattered, depth - 1, scene);
 
     return emitted + color;
 }

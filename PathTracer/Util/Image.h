@@ -2,14 +2,14 @@
 #include <string>
 #include <vector>
 
-#include "../Math/Vector3.h"
+#include <glm/glm.hpp>
 
 class Image
 {
 public:
     Image(int width, int height);
 
-    void SetPixel(int x, int y, const Vector3& color);
+    void SetPixel(int x, int y, const glm::vec3& color);
     void Save(const std::string& filename);
 
 private:

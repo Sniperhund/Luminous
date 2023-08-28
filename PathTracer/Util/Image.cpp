@@ -13,7 +13,7 @@ Image::Image(int width, int height)
     m_height = height;
 }
 
-void Image::SetPixel(int x, int y, const Vector3& color)
+void Image::SetPixel(int x, int y, const glm::vec3& color)
 {    
     m_pixels[4 * m_width * y + 4 * x + 0] = (unsigned char)(color.x * 255);
     m_pixels[4 * m_width * y + 4 * x + 1] = (unsigned char)(color.y * 255);

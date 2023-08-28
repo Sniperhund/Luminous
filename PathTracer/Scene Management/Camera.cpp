@@ -7,26 +7,26 @@
 
 float Camera::sm_vfov = 90.0f;
 
-Vector3 Camera::sm_position = Vector3(0.0f, 0.0f, 0.0f);
-Vector3 Camera::sm_lookAt = Vector3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::sm_position = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::sm_lookAt = glm::vec3(0.0f, 0.0f, 0.0f);
 
 float Camera::sm_defocusAngle = 0.0f;
 float Camera::sm_focusDist = 10.0f;
 
-Vector3 Camera::sm_up = Vector3(0.0f, 0.0f, 1.0f);
+glm::vec3 Camera::sm_up = glm::vec3(0.0f, 0.0f, 1.0f);
 
-Vector3 Camera::u = Vector3(0.0f, 0.0f, 0.0f);
-Vector3 Camera::v = Vector3(0.0f, 0.0f, 0.0f);
-Vector3 Camera::w = Vector3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::u = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::v = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::w = glm::vec3(0.0f, 0.0f, 0.0f);
 
 float Camera::sm_aspectRatio = 1.0f;
 
-Vector3 Camera::sm_pixel00Location = Vector3(0.0f, 0.0f, 0.0f);
-Vector3 Camera::sm_pixelDeltaU = Vector3(0.0f, 0.0f, 0.0f);
-Vector3 Camera::sm_pixelDeltaV = Vector3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::sm_pixel00Location = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::sm_pixelDeltaU = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::sm_pixelDeltaV = glm::vec3(0.0f, 0.0f, 0.0f);
 
-Vector3 Camera::sm_defocusDiskU = Vector3(0.0f, 0.0f, 0.0f);
-Vector3 Camera::sm_defocusDiskV = Vector3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::sm_defocusDiskU = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 Camera::sm_defocusDiskV = glm::vec3(0.0f, 0.0f, 0.0f);
 
 int Camera::sm_width = 0;
 int Camera::sm_height = 0;
@@ -41,7 +41,7 @@ void Camera::Initialize(int width, int height)
     Recalculate();
 }
 
-void Camera::SetPosition(const Vector3& position)
+void Camera::SetPosition(const glm::vec3& position)
 {
     sm_position = position;
     Recalculate();
@@ -53,7 +53,7 @@ void Camera::SetVerticalFieldOfView(float vfov)
     Recalculate();
 }
 
-void Camera::SetLookAt(const Vector3& lookAt)
+void Camera::SetLookAt(const glm::vec3& lookAt)
 {
     sm_lookAt = lookAt;
     Recalculate();
@@ -73,10 +73,10 @@ void Camera::SetFocusDistance(float focusDistance)
 
 Ray Camera::GetRay(int x, int y)
 {
-    Vector3 pixelLocation = sm_pixel00Location + sm_pixelDeltaU * (float)x + sm_pixelDeltaV * (float)y;
-    Vector3 pixelDirection = (pixelLocation + PixelSampleSquare()) - sm_position;
+    glm::vec3 pixelLocation = sm_pixel00Location + sm_pixelDeltaU * (float)x + sm_pixelDeltaV * (float)y;
+    glm::vec3 pixelDirection = (pixelLocation + PixelSampleSquare()) - sm_position;
 
-    Vector3 rayOrigin = (sm_defocusAngle <= 0) ? sm_position : PixelSampleDisk();
+    glm::vec3 rayOrigin = (sm_defocusAngle <= 0) ? sm_position : PixelSampleDisk();
 
     return Ray(rayOrigin, pixelDirection);
 }
@@ -88,17 +88,17 @@ void Camera::Recalculate()
     float viewportHeight = 2.0f * h * sm_focusDist;
     float viewportWidth = sm_aspectRatio * viewportHeight;
 
-    w = Vector3::Normalize(sm_position - sm_lookAt);
-    u = Vector3::Normalize(Vector3::Cross(sm_up, w));
-    v = Vector3::Cross(w, u);
+    w = glm::normalize(sm_position - sm_lookAt);
+    u = glm::normalize(glm::cross(sm_up, w));
+    v = glm::cross(w, u);
 
-    Vector3 viewportU = viewportWidth * u;
-    Vector3 viewportV = viewportHeight * -v;
+    glm::vec3 viewportU = viewportWidth * u;
+    glm::vec3 viewportV = viewportHeight * -v;
 
     sm_pixelDeltaU = viewportU / (float)sm_width;
     sm_pixelDeltaV = viewportV / (float)sm_height;
 
-    auto viewportUpperLeft = sm_position - (sm_focusDist * w) - viewportU / 2 - viewportV / 2;
+    auto viewportUpperLeft = sm_position - (sm_focusDist * w) - viewportU / 2.0f - viewportV / 2.0f;
     sm_pixel00Location = viewportUpperLeft + 0.5f * (sm_pixelDeltaU + sm_pixelDeltaV);
 
     auto defocusRadius = sm_focusDist * tan(Utility::DegreesToRadians(sm_defocusAngle / 2));
@@ -106,15 +106,15 @@ void Camera::Recalculate()
     sm_defocusDiskV = defocusRadius * v;
 }
 
-Vector3 Camera::PixelSampleSquare()
+glm::vec3 Camera::PixelSampleSquare()
 {
     float px = -0.5f + Utility::RandomFloat();
     float py = -0.5f + Utility::RandomFloat();
     return (px * sm_pixelDeltaU) + (py * sm_pixelDeltaV);
 }
 
-Vector3 Camera::PixelSampleDisk()
+glm::vec3 Camera::PixelSampleDisk()
 {
-    Vector3 p = Vector3::RandomInUnitDisk();
+    glm::vec3 p = Utility::RandomInUnitDisk();
     return sm_position + (p.x * sm_defocusDiskU) + (p.y * sm_defocusDiskV);
 }

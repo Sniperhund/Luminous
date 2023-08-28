@@ -8,7 +8,7 @@
 class Mesh : public RawMesh
 {
 public:
-    Mesh(std::string filename, Vector3 position, Material* material);
+    Mesh(std::string filename, Material* material);
 
 private:
     void ProcessNode(aiNode* node, const aiScene* scene);

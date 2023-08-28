@@ -6,12 +6,27 @@
 class RawMesh : public Object
 {
 public:
-    std::vector<Vector3> Vertices;
-    std::vector<int> Indices;
+    RawMesh(Material* material) : Object(material)
+    {
+    }
 
-    RawMesh(Vector3 position, Material* material, std::vector<Vector3> vertices, std::vector<int> indices);
+    std::vector<glm::vec3> Vertices = std::vector<glm::vec3>();
+    std::vector<int> Indices = std::vector<int>();
+    
     bool Intersect(Ray ray, float tMin, float tMax, HitRecord& hitRecord) override;
+    AABB BoundingBox() const override;
 
+    void SetPosition(glm::vec3 position) override;
+    void SetRotation(glm::vec3 rotation) override;
+    void SetScale(glm::vec3 scale) override;
+
+protected:
+    friend class Mesh;
+    std::vector<glm::vec3> TransformedVertices;
+    
 private:
-    bool IntersectTriangle(Ray ray, Vector3 v0, Vector3 v1, Vector3 v2, float tmin, float tmax, float& t);
+    bool IntersectTriangle(Ray ray, glm::vec3 v0, glm::vec3 v1, glm::vec3 v2, float tmin, float tmax, float& t);
+    glm::vec3 RotateAndScale(glm::vec3 vector);
+
+    void TransformVertices();
 };

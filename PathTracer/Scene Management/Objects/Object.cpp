@@ -2,8 +2,8 @@
 
 #include "../Material.h"
 
-void HitRecord::SetFaceNormal(Ray ray, Vector3 outwardNormal)
+void HitRecord::SetFaceNormal(Ray ray, glm::vec3 outwardNormal)
 {
-    frontFace = Vector3::Dot(ray.Direction, outwardNormal) < 0;
+    frontFace = glm::dot(ray.Direction, outwardNormal) < 0;
     normal = frontFace ? outwardNormal : -outwardNormal;
 }

@@ -10,7 +10,7 @@ public:
     void RaytraceScene(Scene* scene);
     
 private:
-    Vector3 TraceRay(Ray ray, int depth, Scene* scene);
+    glm::vec3 TraceRay(Ray ray, int depth, Scene* scene);
     
     Image m_image;
 

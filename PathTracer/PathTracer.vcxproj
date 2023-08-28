@@ -147,6 +147,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,11 +158,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Math\Ray.cpp" />
-    <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pathtracer.cpp" />
     <ClCompile Include="Scene Management\Camera.cpp" />
     <ClCompile Include="Scene Management\Material.cpp" />
+    <ClCompile Include="Scene Management\Objects\AABB.cpp" />
+    <ClCompile Include="Scene Management\Objects\BVHNode.cpp" />
     <ClCompile Include="Scene Management\Objects\Mesh.cpp" />
     <ClCompile Include="Scene Management\Objects\RawMesh.cpp" />
     <ClCompile Include="Scene Management\Objects\Object.cpp" />
@@ -171,10 +173,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Math\Ray.h" />
-    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Pathtracer.h" />
     <ClInclude Include="Scene Management\Camera.h" />
     <ClInclude Include="Scene Management\Material.h" />
+    <ClInclude Include="Scene Management\Objects\AABB.h" />
+    <ClInclude Include="Scene Management\Objects\BVHNode.h" />
     <ClInclude Include="Scene Management\Objects\Mesh.h" />
     <ClInclude Include="Scene Management\Objects\RawMesh.h" />
     <ClInclude Include="Scene Management\Objects\Object.h" />

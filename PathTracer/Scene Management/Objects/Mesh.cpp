@@ -6,10 +6,8 @@
 
 #include "../Material.h"
 
-Mesh::Mesh(std::string filename, Vector3 position, Material* material) : RawMesh(position, material, std::vector<Vector3>(), std::vector<int>())
+Mesh::Mesh(std::string filename, Material* material) : RawMesh(material)
 {
-    this->position = position;
-    
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate | aiProcess_FlipUVs);
 
@@ -43,7 +41,7 @@ void Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     {
         aiVector3D vertex = mesh->mVertices[i];
 
-        Vertices.push_back(Vector3(vertex.x, vertex.y, vertex.z));
+        Vertices.push_back(glm::vec3(vertex.x, vertex.y, vertex.z));
     }
 
     for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -55,4 +53,6 @@ void Mesh::ProcessMesh(aiMesh* mesh, const aiScene* scene)
             Indices.push_back(face.mIndices[j]);
         }
     }
+
+    TransformedVertices = Vertices;
 }
